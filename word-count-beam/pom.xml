@@ -211,7 +211,7 @@
           <groupId>org.apache.beam</groupId>
           <artifactId>beam-runners-portability-java</artifactId>
           <version>${beam.version}</version>
-          <scope>runtime</scope>
+          <!-- <scope>runtime</scope>  to create fat JAR referenced from Rust -->
         </dependency>
       </dependencies>
     </profile>

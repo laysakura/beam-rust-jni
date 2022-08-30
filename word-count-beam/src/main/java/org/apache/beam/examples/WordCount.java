@@ -242,8 +242,8 @@ public class WordCount {
       args[0] = "--inputFile=/Users/sho.nakatani/.ghq/src/github.com/laysakura/beam-rust-jni/sample.txt";
       args[1] = "--output=/Users/sho.nakatani/.ghq/src/github.com/laysakura/beam-rust-jni/counts";
       args[2] = "--runner=FlinkRunner";
-      args[3] = "--flinkMaster=localhost:8081";
-      args[4] = "--filesToStage=/Users/sho.nakatani/.ghq/src/github.com/laysakura/beam-rust-jni/word-count-beam/target/original-word-count-beam-bundled-0.1.jar";
+      //args[3] = "--flinkMaster=localhost:8081";
+      //args[4] = "--filesToStage=/Users/sho.nakatani/.ghq/src/github.com/laysakura/beam-rust-jni/word-count-beam/target/original-word-count-beam-bundled-0.1.jar";
 
     WordCountOptions options = PipelineOptionsFactory.fromArgs(args).withValidation().as(WordCountOptions.class);
 

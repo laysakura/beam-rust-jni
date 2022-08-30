@@ -17,14 +17,10 @@ fn main() -> Result<(), J4RsError> {
     // The instances returned from invocations and instantiations can be viewed as pointers to Java Objects.
     // They can be used for further Java calls.
     // For example, the following invokes the `isEmpty` method of the created java.lang.String instance
-    let boolean_instance = jvm.invoke(&wordcount_class_instance, "entrypoint", &[])?;
+    let _void_instance = jvm.invoke(&wordcount_class_instance, "entrypoint", &[])?;
 
     // If we need to transform an `Instance` to Rust value, the `to_rust` should be called
-    let rust_boolean: bool = jvm.to_rust(boolean_instance)?;
-    println!(
-        "The entrypoint() method of the org.apache.beam.examples.WordCount instance returned {}",
-        rust_boolean
-    );
+    println!("The entrypoint() method of the org.apache.beam.examples.WordCount instance finished",);
 
     // Static invocation
     let _static_invocation_result = jvm.invoke_static(

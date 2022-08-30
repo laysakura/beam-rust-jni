@@ -17,6 +17,8 @@
  */
 package org.apache.beam.examples;
 
+import java.util.ArrayList;
+
 // beam-playground:
 //   name: WordCount
 //   description: An example that counts words in Shakespeare's works.
@@ -225,14 +227,23 @@ public class WordCount {
   }
 
   public static void main(String[] args) {
+    System.out.println(args[0]);
+    System.out.println(args[1]);
+
     WordCountOptions options = PipelineOptionsFactory.fromArgs(args).withValidation().as(WordCountOptions.class);
 
     runWordCount(options);
   }
 
   // Added to be called from rust
-  public boolean entrypoint() {
-    return true;
+  public void entrypoint() {
+      String[] args = new String[2];
+      args[0] = "--inputFile=/Users/sho.nakatani/.ghq/src/github.com/laysakura/beam-rust-jni/sample.txt";
+      args[1] = "--output=/Users/sho.nakatani/.ghq/src/github.com/laysakura/beam-rust-jni/counts";
+
+    WordCountOptions options = PipelineOptionsFactory.fromArgs(args).withValidation().as(WordCountOptions.class);
+
+    runWordCount(options);
   }
 
 }

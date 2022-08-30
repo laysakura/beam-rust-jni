@@ -1,6 +1,8 @@
 # Running Rust entrypoint
 
 ```bash
+mvn package -Dmaven.test.skip=true  # to create fat jar for WordCount Java app
+
 DYLD_LIBRARY_PATH=/Library/Java/JavaVirtualMachines/jdk-18.0.1.1.jdk/Contents/Home/lib cargo run
 ```
 

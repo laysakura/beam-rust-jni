@@ -240,7 +240,7 @@
                https://beam.apache.org/documentation/runners/flink/ -->
           <artifactId>${flink.artifact.name}</artifactId>
           <version>${beam.version}</version>
-          <scope>runtime</scope>
+          <!-- <scope>runtime</scope> -->
         </dependency>
       </dependencies>
     </profile>

@@ -237,9 +237,10 @@ public class WordCount {
 
   // Added to be called from rust
   public void entrypoint() {
-      String[] args = new String[2];
+      String[] args = new String[10];
       args[0] = "--inputFile=/Users/sho.nakatani/.ghq/src/github.com/laysakura/beam-rust-jni/sample.txt";
       args[1] = "--output=/Users/sho.nakatani/.ghq/src/github.com/laysakura/beam-rust-jni/counts";
+      args[2] = "--runner=FlinkRunner";
 
     WordCountOptions options = PipelineOptionsFactory.fromArgs(args).withValidation().as(WordCountOptions.class);
 

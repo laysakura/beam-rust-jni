@@ -9,7 +9,7 @@ You need to change Java option at: `org.apache.beam.examples.WordCount.entrypoin
 
 ```bash
 cd word-count-beam
-mvn package -Dmaven.test.skip=true  # to create fat jar for WordCount Java app
+mvn package -Dmaven.test.skip=true -Pflink-runner  # to create fat jar for WordCount Java app
 
 DYLD_LIBRARY_PATH=$JAVA_HOME/lib LOG_LEVEL=debug cargo run
 

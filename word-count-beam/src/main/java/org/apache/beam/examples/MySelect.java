@@ -36,9 +36,9 @@ public class MySelect {
     public Double field3;
 
     Schema1(String f1, Integer f2, Double f3) {
-        field1 = f1;
-        field2 = f2;
-        field3 = f3;
+      field1 = f1;
+      field2 = f2;
+      field3 = f3;
     }
 
     public static Schema1 create() {
@@ -48,9 +48,18 @@ public class MySelect {
 
   /** A class matching the schema resulting from selection field1, field3. */
   @DefaultSchema(JavaFieldSchema.class)
-  public class Schema1Selected {
+  public static class Schema1Selected {
     public String field1;
     public Double field3;
+
+    Schema1Selected(String f1, Double f3) {
+      field1 = f1;
+      field3 = f3;
+    }
+
+    public static Schema1Selected create() {
+      return new Schema1Selected("field1", 3.14);
+    }
   }
 
   Pipeline createPipeline(String[] args) {
@@ -74,7 +83,7 @@ public class MySelect {
         .apply(Create.of(Schema1.create()))
         .apply(Select.fieldNames("field1", "field3"))
         .apply(Convert.to(Schema1Selected.class));
-    
+
     pipeline.run().waitUntilFinish();
   }
 

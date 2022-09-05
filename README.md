@@ -15,7 +15,7 @@ mvn package -Dmaven.test.skip=true -Pportable-runner  # to create fat jar for Wo
 Run beam-flink backend:
 
 ```bash
-docker run --net=host apache/beam_flink1.14_job_server:latest --flink-master=localhost:8081
+docker run --net=host apache/beam_flink1.14_job_server:latest
 ```
 
 And run the pipeline with beam-flink.

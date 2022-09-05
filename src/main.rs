@@ -2,7 +2,7 @@ use j4rs::{errors::J4RsError, ClasspathEntry, JvmBuilder};
 
 fn main() -> Result<(), J4RsError> {
     let entry = ClasspathEntry::new(
-        "/Users/sho.nakatani/.ghq/src/github.com/laysakura/beam-rust-jni/word-count-beam/target/word-count-beam-bundled-0.1.jar",
+        "target/word-count-beam-bundled-0.1.jar",
     );
 
     // Create a JVM

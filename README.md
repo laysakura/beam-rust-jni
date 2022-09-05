@@ -9,10 +9,16 @@ You need to change Java option at: `org.apache.beam.examples.WordCount.entrypoin
 
 ```bash
 cd word-count-beam
-mvn package -Dmaven.test.skip=true -Pflink-runner  # to create fat jar for WordCount Java app
+mvn package -Dmaven.test.skip=true -Pportable-runner  # to create fat jar for WordCount Java app
 ```
 
-And run the pipeline with embedded Flink.
+Run beam-flink backend:
+
+```bash
+docker run --net=host apache/beam_flink1.14_job_server:latest --flink-master=localhost:8081
+```
+
+And run the pipeline with beam-flink.
 
 ```bash
 DYLD_LIBRARY_PATH=$JAVA_HOME/lib LOG_LEVEL=debug cargo run

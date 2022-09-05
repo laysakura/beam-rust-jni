@@ -9,14 +9,14 @@ import org.apache.beam.sdk.values.PCollection;
 import org.apache.beam.sdk.values.Row;
 import org.apache.beam.sdk.Pipeline;
 
-import org.apache.beam.sdk.options.PipelineOptions;
+import org.apache.beam.sdk.options.PortablePipelineOptions;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 
 public class MySelect {
 
   Pipeline createPipeline(String[] args) {
-    PipelineOptions options = PipelineOptionsFactory.fromArgs(args).withValidation()
-        .as(PipelineOptions.class);
+    PortablePipelineOptions options = PipelineOptionsFactory.fromArgs(args).withValidation()
+        .as(PortablePipelineOptions.class);
     Pipeline p = Pipeline.create(options);
     return p;
   }
@@ -24,7 +24,9 @@ public class MySelect {
   // Added to be called from rust
   public void simpleSelect() {
     String[] args = new String[10];
-    args[0] = "--runner=FlinkRunner";
+    args[0] = "--runner=PortableRunner";
+    args[1] = "--jobEndpoint=localhost:8099";
+    args[2] = "--defaultEnvironmentType=LOOPBACK";
 
     Pipeline pipeline = createPipeline(args);
 

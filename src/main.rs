@@ -14,6 +14,9 @@ fn main() -> Result<(), J4RsError> {
         &Vec::new(), // The `InvocationArg`s to use for the invocation - empty for this example
     )?;
 
+    // ここで "entrypoint" を呼ぶのではなく、 create_proto(); run_proto(); みたいにする
+
+
     // The instances returned from invocations and instantiations can be viewed as pointers to Java Objects.
     // They can be used for further Java calls.
     // For example, the following invokes the `isEmpty` method of the created java.lang.String instance

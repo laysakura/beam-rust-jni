@@ -28,7 +28,7 @@
 
   <properties>
   <!--  Beam does not support v18 -->
-  <java.version>17</java.version>
+  <java.version>8</java.version>
   <maven.compiler.target>${java.version}</maven.compiler.target>
   <maven.compiler.source>${java.version}</maven.compiler.source>
   

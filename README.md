@@ -1,16 +1,28 @@
 # Running Rust entrypoint
 
+## Prerequisites
+
 ```bash
 java -version
-# 17.X
+# 8.X
 ```
 
-You need to change Java option at: `org.apache.beam.examples.WordCount.entrypoint`
+## Build custom Beam SDK (Java)
+
+```bash
+cd beam
+./gradlew -p sdks/java/core assemble
+ls -lh sdks/java/core/build/libs/beam-sdks-java-core-2.41.0-SNAPSHOT.jar
+```
+
+## Build example (Java)
 
 ```bash
 cd word-count-beam
-mvn package -Dmaven.test.skip=true -Pportable-runner  # to create fat jar for WordCount Java app
+mvn package -Dmaven.test.skip=true -Pportable-runner
 ```
+
+## Run the pipeline from Rust
 
 Run beam-flink backend:
 

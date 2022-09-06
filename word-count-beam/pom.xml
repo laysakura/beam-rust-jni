@@ -375,6 +375,9 @@
       <groupId>org.apache.beam</groupId>
       <artifactId>beam-sdks-java-core</artifactId>
       <version>${beam.version}</version>
+
+      <scope>system</scope>
+      <systemPath>${project.basedir}/..//beam/sdks/java/core/build/libs/beam-sdks-java-core-2.41.0-SNAPSHOT.jar</systemPath>
     </dependency>
 
     <!-- Adds a dependency on the Beam Google Cloud Platform IO module. -->
@@ -512,6 +515,20 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+
+      <!-- for SuppressFBWarnings -->
+<dependency>
+    <groupId>com.google.code.findbugs</groupId>
+    <artifactId>annotations</artifactId>
+    <version>3.0.1</version>
+    <!-- <scope>provided</scope> -->
+</dependency>
+<dependency>
+    <groupId>com.google.code.findbugs</groupId>
+    <artifactId>jsr305</artifactId>
+    <version>3.0.1</version>
+    <!-- <scope>provided</scope> -->
+</dependency>
     </dependencies>
   </dependencyManagement>
 </project>

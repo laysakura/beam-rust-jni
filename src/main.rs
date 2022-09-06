@@ -16,14 +16,14 @@ fn main() -> Result<(), J4RsError> {
 
     // ここで "entrypoint" を呼ぶのではなく、 create_proto(); run_proto(); みたいにする
 
-
     // The instances returned from invocations and instantiations can be viewed as pointers to Java Objects.
     // They can be used for further Java calls.
     // For example, the following invokes the `isEmpty` method of the created java.lang.String instance
-    let _void_instance = jvm.invoke(&select_class_instance, "simpleSelect", &[])?;
+    let boolean_instance = jvm.invoke(&select_class_instance, "simpleSelect", &[])?;
 
     // If we need to transform an `Instance` to Rust value, the `to_rust` should be called
-    println!("The simpleSelect() method of the org.apache.beam.examples.MySelect instance finished",);
+    let rust_boolean: bool = jvm.to_rust(boolean_instance)?;
+    println!("The simpleSelect() method of the org.apache.beam.examples.MySelect instance finished with {}", rust_boolean);
 
     // Static invocation
     let _static_invocation_result = jvm.invoke_static(

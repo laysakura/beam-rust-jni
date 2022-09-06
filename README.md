@@ -26,5 +26,6 @@ docker run --net=host apache/beam_flink1.14_job_server:latest
 And run the pipeline with beam-flink.
 
 ```bash
+cd ..
 DYLD_LIBRARY_PATH=$JAVA_HOME/lib cargo run
 ```

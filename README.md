@@ -7,20 +7,12 @@ java -version
 # 8.X
 ```
 
-## Build custom Beam SDK (Java)
+## Build example with custom Beam SDK (Java)
 
 ```bash
 cd beam
-./gradlew -p sdks/java/core assemble
-ls -lh sdks/java/core/build/libs/beam-sdks-java-core-2.41.0-SNAPSHOT.jar
-```
-
-## Build example (Java)
-
-```bash
-cd word-count-beam
-mvn clean  # install beam-sdks-java-core-custom in local maven repo
-mvn package -Dmaven.test.skip=true -Pportable-runner
+./gradlew -p examples/java/ shadowJar
+ls -lh examples/java/build/libs/beam-examples-java-2.42.0-SNAPSHOT-all.jar
 ```
 
 ## Run the pipeline from Rust
@@ -34,7 +26,5 @@ docker run --net=host apache/beam_flink1.14_job_server:latest
 And run the pipeline with beam-flink.
 
 ```bash
-DYLD_LIBRARY_PATH=$JAVA_HOME/lib LOG_LEVEL=debug cargo run
-
-ls ../counts*
+DYLD_LIBRARY_PATH=$JAVA_HOME/lib cargo run
 ```

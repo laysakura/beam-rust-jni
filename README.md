@@ -19,6 +19,7 @@ ls -lh sdks/java/core/build/libs/beam-sdks-java-core-2.41.0-SNAPSHOT.jar
 
 ```bash
 cd word-count-beam
+mvn clean  # install beam-sdks-java-core-custom in local maven repo
 mvn package -Dmaven.test.skip=true -Pportable-runner
 ```
 

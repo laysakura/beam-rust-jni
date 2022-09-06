@@ -9,6 +9,8 @@ java -version
 
 ## Build example with custom Beam SDK (Java)
 
+Target example: `beam/examples/java/src/main/java/org/apache/beam/examples/MySelect.java`
+
 ```bash
 cd beam
 ./gradlew -p examples/java/ shadowJar

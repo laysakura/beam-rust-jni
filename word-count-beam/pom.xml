@@ -129,6 +129,29 @@
             </executions>
         </plugin>
       
+      <!-- local maven repository to use custom Beam SDK -->
+     <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-install-plugin</artifactId>
+         <executions>
+             <execution>
+                 <id>install-external</id>
+                 <phase>clean</phase>
+                 <configuration>
+                     <file>${project.basedir}/../beam/sdks/java/core/build/libs/beam-sdks-java-core-2.42.0-SNAPSHOT.jar</file>
+                     <repositoryLayout>default</repositoryLayout>
+      <groupId>org.apache.beam</groupId>
+      <artifactId>beam-sdks-java-core-custom</artifactId>
+      <version>2.42.0-SNAPSHOT</version>
+                     <packaging>jar</packaging>
+                     <generatePom>true</generatePom>
+                 </configuration>
+                 <goals>
+                     <goal>install-file</goal>
+                 </goals>
+             </execution>
+         </executions>
+     </plugin>
 
       <!--
         Configures `mvn package` to produce a bundled jar ("fat jar") for runners
@@ -373,11 +396,8 @@
     <!-- Adds a dependency on the Beam SDK. -->
     <dependency>
       <groupId>org.apache.beam</groupId>
-      <artifactId>beam-sdks-java-core</artifactId>
+      <artifactId>beam-sdks-java-core-custom</artifactId>
       <version>2.42.0-SNAPSHOT</version>
-
-      <scope>system</scope>
-      <systemPath>${project.basedir}/..//beam/sdks/java/core/build/libs/beam-sdks-java-core-2.42.0-SNAPSHOT.jar</systemPath>
     </dependency>
 
     <!-- Adds a dependency on the Beam Google Cloud Platform IO module. -->

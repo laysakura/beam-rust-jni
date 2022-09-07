@@ -1,6 +1,12 @@
-use beam_proto_rs::v1::beam_runner_api::Pipeline;
+mod beam_sdk;
+
+use beam_proto_rs::v1::beam_runner_api::Pipeline as PipelineProto;
 use j4rs::{errors::J4RsError, ClasspathEntry, InvocationArg, JvmBuilder};
 use protobuf::Message;
+
+fn create_pipeline_proto() -> PipelineProto {
+    PipelineProto::default()
+}
 
 fn main() -> Result<(), J4RsError> {
     let entry = ClasspathEntry::new(
@@ -16,7 +22,7 @@ fn main() -> Result<(), J4RsError> {
         &Vec::new(), // The `InvocationArg`s to use for the invocation - empty for this example
     )?;
 
-    let pipeline = Pipeline::default();
+    let pipeline = create_pipeline_proto();
     let mut pipeline_bin = Vec::<u8>::new();
     pipeline.write_to_vec(&mut pipeline_bin).unwrap();
 

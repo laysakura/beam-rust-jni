@@ -6,7 +6,13 @@ use beam_proto_rs::v1::beam_runner_api::Pipeline as PipelineProto;
 use j4rs::{errors::J4RsError, ClasspathEntry, InvocationArg, JvmBuilder};
 use protobuf::Message;
 
-use crate::beam_sdk::{options::PipelineOptions, Pipeline};
+use crate::beam_sdk::{
+    options::PipelineOptions,
+    schemas::{SchemaBuilder, SchemaFieldType},
+    transforms::{Create, Select},
+    values::RowBuilder,
+    Pipeline,
+};
 
 fn create_pipeline_proto() -> PipelineProto {
     let options = PipelineOptions::from_args(env::args()).unwrap();
@@ -18,7 +24,7 @@ fn create_pipeline_proto() -> PipelineProto {
         .add("f2", SchemaFieldType::String)
         .build();
 
-    let input = RowBuilder::new(input_schema)
+    let input = RowBuilder::new(&input_schema)
         .add_value("f0", 1i16)
         .add_value("f1", 2)
         .add_value("f2", "3")
@@ -29,11 +35,11 @@ fn create_pipeline_proto() -> PipelineProto {
         .apply(Create::from_row(input)) // Pipeline::apply -> PCollection
         .apply(Select::field_names(&["f2", "f0"])); // PCollection::apply -> PCollection
 
-    let expectedschema = SchemaBuilder::new()
+    let expected_schema = SchemaBuilder::new()
         .add("f2", SchemaFieldType::String)
         .add("f0", SchemaFieldType::Int16)
         .build();
-    assert_eq!(rows.schema(), expect_schema); // determined before running the pipeline (PAssert not required)
+    assert_eq!(rows.schema().unwrap(), &expected_schema); // determined before running the pipeline (PAssert not required)
 
     PipelineProto::from(pipeline)
 }

@@ -1,4 +1,6 @@
-use j4rs::{errors::J4RsError, ClasspathEntry, JvmBuilder};
+use beam_proto_rs::v1::beam_runner_api::Pipeline;
+use j4rs::{errors::J4RsError, ClasspathEntry, InvocationArg, JvmBuilder};
+use protobuf::Message;
 
 fn main() -> Result<(), J4RsError> {
     let entry = ClasspathEntry::new(
@@ -14,23 +16,30 @@ fn main() -> Result<(), J4RsError> {
         &Vec::new(), // The `InvocationArg`s to use for the invocation - empty for this example
     )?;
 
-    // ここで "entrypoint" を呼ぶのではなく、 create_proto(); run_proto(); みたいにする
+    let pipeline = Pipeline::default();
+    let mut pipeline_bin = Vec::<u8>::new();
+    pipeline.write_to_vec(&mut pipeline_bin).unwrap();
+
+    let pipeline_bin_java: Vec<InvocationArg> = pipeline_bin
+        .into_iter()
+        .map(|b| {
+            InvocationArg::try_from(b as i8).expect("failed to convert rust byte into java byte")
+        })
+        .collect();
+    let pipeline_bin_java = jvm.create_java_array("java.lang.Byte", &pipeline_bin_java)?;
 
     // The instances returned from invocations and instantiations can be viewed as pointers to Java Objects.
     // They can be used for further Java calls.
     // For example, the following invokes the `isEmpty` method of the created java.lang.String instance
-    let boolean_instance = jvm.invoke(&select_class_instance, "simpleSelect", &[])?;
+    let boolean_instance = jvm.invoke(
+        &select_class_instance,
+        "simpleSelect",
+        &[InvocationArg::from(pipeline_bin_java)],
+    )?;
 
     // If we need to transform an `Instance` to Rust value, the `to_rust` should be called
     let rust_boolean: bool = jvm.to_rust(boolean_instance)?;
     println!("The simpleSelect() method of the org.apache.beam.examples.MySelect instance finished with {}", rust_boolean);
-
-    // Static invocation
-    let _static_invocation_result = jvm.invoke_static(
-        "java.lang.System",  // The Java class to invoke
-        "currentTimeMillis", // The static method of the Java class to invoke
-        &Vec::new(), // The `InvocationArg`s to use for the invocation - empty for this example
-    )?;
 
     Ok(())
 }

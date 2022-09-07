@@ -3,10 +3,21 @@
 version = 3
 
 [[package]]
+name = "beam-proto-rs"
+version = "2.41.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1bd70ce88e2d14d7c7592d109260ff58b02395133e7fdb04b357dee104ff1b63"
+dependencies = [
+ "protobuf",
+]
+
+[[package]]
 name = "beam-rust-jni"
 version = "0.1.0"
 dependencies = [
+ "beam-proto-rs",
  "j4rs",
+ "protobuf",
 ]
 
 [[package]]
@@ -181,6 +192,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "once_cell"
+version = "1.14.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2f7254b99e31cad77da24b08ebf628882739a608578bb1bcdfc1f9c21260d7c0"
+
+[[package]]
 name = "opaque-debug"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -193,6 +210,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0a2ca2c61bc9f3d74d2886294ab7b9853abd9c1ad903a3ac7815c58989bb7bab"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "protobuf"
+version = "3.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4ee4a7d8b91800c8f167a6268d1a1026607368e1adc84e98fe044aeb905302f7"
+dependencies = [
+ "once_cell",
+ "protobuf-support",
+ "thiserror",
+]
+
+[[package]]
+name = "protobuf-support"
+version = "3.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8ca157fe12fc7ee2e315f2f735e27df41b3d97cdd70ea112824dac1ffb08ee1c"
+dependencies = [
+ "thiserror",
 ]
 
 [[package]]

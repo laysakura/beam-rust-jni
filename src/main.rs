@@ -1,11 +1,41 @@
 mod beam_sdk;
 
+use std::env;
+
 use beam_proto_rs::v1::beam_runner_api::Pipeline as PipelineProto;
 use j4rs::{errors::J4RsError, ClasspathEntry, InvocationArg, JvmBuilder};
 use protobuf::Message;
 
+use crate::beam_sdk::{options::PipelineOptions, Pipeline};
+
 fn create_pipeline_proto() -> PipelineProto {
-    PipelineProto::default()
+    let options = PipelineOptions::from_args(env::args()).unwrap();
+    let pipeline = Pipeline::new(options);
+
+    let input_schema = SchemaBuilder::new()
+        .add("f0", SchemaFieldType::Int16)
+        .add("f1", SchemaFieldType::Int32)
+        .add("f2", SchemaFieldType::String)
+        .build();
+
+    let input = RowBuilder::new(input_schema)
+        .add_value("f0", 1i16)
+        .add_value("f1", 2)
+        .add_value("f2", "3")
+        .build()
+        .unwrap();
+
+    let rows = pipeline
+        .apply(Create::from_row(input)) // Pipeline::apply -> PCollection
+        .apply(Select::field_names(&["f2", "f0"])); // PCollection::apply -> PCollection
+
+    let expectedschema = SchemaBuilder::new()
+        .add("f2", SchemaFieldType::String)
+        .add("f0", SchemaFieldType::Int16)
+        .build();
+    assert_eq!(rows.schema(), expect_schema); // determined before running the pipeline (PAssert not required)
+
+    PipelineProto::from(pipeline)
 }
 
 fn main() -> Result<(), J4RsError> {

@@ -8,6 +8,7 @@ use protobuf::Message;
 
 use crate::beam_sdk::{
     options::PipelineOptions,
+    runners::PipelineRunnerKind,
     schemas::{SchemaBuilder, SchemaFieldType},
     transforms::{Create, Select},
     values::RowBuilder,
@@ -15,7 +16,7 @@ use crate::beam_sdk::{
 };
 
 fn create_pipeline_proto() -> PipelineProto {
-    let options = PipelineOptions::from_args(env::args()).unwrap();
+    let options = PipelineOptions::new(PipelineRunnerKind::PortableRunner);
     let pipeline = Pipeline::new(options);
 
     let input_schema = SchemaBuilder::new()

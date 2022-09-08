@@ -5,17 +5,17 @@ pub struct SchemaBuilder {}
 
 impl SchemaBuilder {
     pub fn new() -> Self {
-        todo!()
+        Self {}
     }
 
     pub fn add<S>(self, field_name: S, field_type: SchemaFieldType) -> Self
     where
         S: ToString,
     {
-        todo!()
+        self
     }
 
     pub fn build(self) -> Schema {
-        todo!()
+        Schema {}
     }
 }

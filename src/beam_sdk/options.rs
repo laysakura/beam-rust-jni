@@ -1,6 +1,4 @@
-use std::env;
-
-use crate::beam_sdk::{error::InvalidArgsError, runners::PipelineRunnerKind};
+use crate::beam_sdk::runners::PipelineRunnerKind;
 
 #[derive(Eq, PartialEq, Debug)]
 pub struct PipelineOptions {
@@ -9,7 +7,7 @@ pub struct PipelineOptions {
 }
 
 impl PipelineOptions {
-    pub fn from_args(args: env::Args) -> Result<Self, InvalidArgsError> {
-        todo!()
+    pub fn new(runner: PipelineRunnerKind) -> Self {
+        Self { runner }
     }
 }

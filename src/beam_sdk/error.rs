@@ -5,16 +5,6 @@ use crate::beam_sdk::schemas::SchemaFieldType;
 
 #[derive(Debug, Error)]
 #[error("{}", .0)]
-pub struct InvalidArgsError(anyhow::Error);
-
-impl InvalidArgsError {
-    pub(crate) fn new(arg: String) -> Self {
-        Self(anyhow!("Invalid argument: {}", arg))
-    }
-}
-
-#[derive(Debug, Error)]
-#[error("{}", .0)]
 pub struct FieldTypeError(anyhow::Error);
 
 impl FieldTypeError {

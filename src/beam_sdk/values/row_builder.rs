@@ -5,14 +5,14 @@ pub struct RowBuilder;
 
 impl RowBuilder {
     pub fn new(schema: &Schema) -> Self {
-        todo!()
+        Self
     }
 
     pub fn add_value<S: AsRef<str>, T>(self, field_name: S, value: T) -> Self {
-        todo!()
+        self
     }
 
     pub fn build(self) -> Result<Row, FieldTypeError> {
-        todo!()
+        Ok(Row)
     }
 }

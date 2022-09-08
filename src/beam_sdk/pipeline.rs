@@ -1,23 +1,36 @@
-use crate::beam_sdk::{options::PipelineOptions, transforms::ReadTransform, values::PCollection};
-use beam_proto_rs::v1::beam_runner_api::Pipeline as PipelineProto;
+mod pipeline_translation;
 
-pub struct Pipeline;
+use std::{cell::RefCell, rc::Rc};
+
+use crate::beam_sdk::{
+    options::PipelineOptions,
+    transforms::{BoxedPTransform, ReadTransform},
+    values::{PCollection, PCollectionId},
+};
+use petgraph::{
+    graph::{DiGraph, NodeIndex},
+    visit::IntoNodeReferences,
+};
+
+type Graph = Rc<RefCell<DiGraph<BoxedPTransform, PCollection>>>;
+
+pub struct Pipeline {
+    options: PipelineOptions,
+    graph: Graph,
+}
 
 impl Pipeline {
     pub fn new(options: PipelineOptions) -> Self {
-        todo!()
+        Self {
+            options,
+            graph: Graph::default(),
+        }
     }
 
     pub fn apply<R>(&self, root: R) -> PCollection
     where
         R: ReadTransform,
     {
-        todo!()
-    }
-}
-
-impl From<Pipeline> for PipelineProto {
-    fn from(_: Pipeline) -> Self {
-        todo!()
+        PCollection::new(PCollectionId::from("TODO unique id"))
     }
 }

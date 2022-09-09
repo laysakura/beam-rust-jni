@@ -1,7 +1,5 @@
 mod beam_sdk;
 
-use std::env;
-
 use beam_proto_rs::v1::beam_runner_api::Pipeline as PipelineProto;
 use j4rs::{errors::J4RsError, ClasspathEntry, InvocationArg, JvmBuilder};
 use protobuf::Message;

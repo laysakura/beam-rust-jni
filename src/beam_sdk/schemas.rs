@@ -1,5 +1,6 @@
 mod schema;
 mod schema_builder;
+mod schema_field;
 mod schema_field_type;
 
 pub use schema::Schema;

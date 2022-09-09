@@ -1,19 +1,37 @@
 use crate::beam_sdk::{
+    schemas::Schema,
     transforms::{ptransform::PTransformId, ReadTransform},
-    values::Row,
+    values::{PCollection, PCollectionId, PCollectionValue, Row},
 };
 
 #[derive(Debug)]
-pub struct Create {
+pub struct Create<V>
+where
+    V: PCollectionValue,
+{
     id: PTransformId,
+    value: V, // I guess Create must pass the value from SDK to runner but does Beam .proto do this?
 }
 
-impl Create {
-    pub fn from_row(row: Row) -> Self {
+impl<V> Create<V>
+where
+    V: PCollectionValue,
+{
+    pub fn from_row(value: V) -> Self {
         Self {
             id: PTransformId::from("TODO unique id"),
+            value,
         }
     }
 }
 
-impl ReadTransform for Create {}
+impl<V> ReadTransform for Create<V>
+where
+    V: PCollectionValue,
+{
+    type OutV = V;
+
+    fn out_pcollection(&self) -> PCollection<Self::OutV> {
+        PCollection::<Self::OutV>::new_value(PCollectionId::from("TODO unique id"))
+    }
+}

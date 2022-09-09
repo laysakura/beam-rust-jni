@@ -1,36 +1,29 @@
 mod pipeline_translation;
 
-use std::{cell::RefCell, rc::Rc};
-
 use crate::beam_sdk::{
     options::PipelineOptions,
-    transforms::{BoxedPTransform, ReadTransform},
-    values::{PCollection, PCollectionId},
+    transforms::ReadTransform,
+    values::{PCollection, PCollectionValue},
 };
-use petgraph::{
-    graph::{DiGraph, NodeIndex},
-    visit::IntoNodeReferences,
-};
-
-type Graph = Rc<RefCell<DiGraph<BoxedPTransform, PCollection>>>;
 
 pub struct Pipeline {
     options: PipelineOptions,
-    graph: Graph,
+
+    read_ptransforms: Vec<Box<dyn ReadTransform<OutV = dyn PCollectionValue>>>,
 }
 
 impl Pipeline {
     pub fn new(options: PipelineOptions) -> Self {
         Self {
             options,
-            graph: Graph::default(),
+            read_ptransforms: Vec::new(),
         }
     }
 
-    pub fn apply<R>(&self, root: R) -> PCollection
+    pub fn apply<R>(&self, root: R) -> PCollection<R::OutV>
     where
         R: ReadTransform,
     {
-        PCollection::new(PCollectionId::from("TODO unique id"))
+        root.out_pcollection()
     }
 }

@@ -5,20 +5,33 @@ use crate::beam_sdk::{
 };
 
 #[derive(Debug)]
-pub struct Create<V>
+pub enum Create<V>
 where
     V: PCollectionValue,
 {
-    id: PTransformId,
-    value: V, // I guess Create must pass the value from SDK to runner but does Beam .proto do this?
+    Row {
+        id: PTransformId,
+        row: Row,
+    },
+    Value {
+        id: PTransformId,
+        value: V, // I guess Create must pass the value from SDK to runner but does Beam .proto do this?
+    },
 }
 
 impl<V> Create<V>
 where
     V: PCollectionValue,
 {
-    pub fn from_row(value: V) -> Self {
-        Self {
+    pub fn new_row(row: Row) -> Self {
+        Self::Row {
+            id: PTransformId::from("TODO unique id"),
+            row,
+        }
+    }
+
+    pub fn new_value(value: V) -> Self {
+        Self::Value {
             id: PTransformId::from("TODO unique id"),
             value,
         }
@@ -32,6 +45,10 @@ where
     type OutV = V;
 
     fn out_pcollection(&self) -> PCollection<Self::OutV> {
-        PCollection::<Self::OutV>::new_value(PCollectionId::from("TODO unique id"))
+        let id = PCollectionId::from("TODO unique id");
+        match self {
+            Create::Row { row, .. } => PCollection::new_row(id, row.schema().clone()),
+            Create::Value { .. } => PCollection::<Self::OutV>::new_value(id),
+        }
     }
 }

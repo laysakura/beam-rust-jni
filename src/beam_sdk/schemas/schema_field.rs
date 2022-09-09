@@ -13,4 +13,8 @@ impl SchemaField {
             typ: field_type,
         }
     }
+
+    pub(crate) fn hit(&self, field_name: &str) -> bool {
+        &self.name == field_name
+    }
 }

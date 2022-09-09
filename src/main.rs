@@ -5,6 +5,7 @@ use j4rs::{errors::J4RsError, ClasspathEntry, InvocationArg, JvmBuilder};
 use protobuf::Message;
 
 use crate::beam_sdk::{
+    error::BoxError,
     options::PipelineOptions,
     runners::PipelineRunnerKind,
     schemas::{SchemaBuilder, SchemaFieldType},
@@ -13,7 +14,7 @@ use crate::beam_sdk::{
     Pipeline,
 };
 
-fn create_pipeline_proto() -> PipelineProto {
+fn create_pipeline_proto() -> Result<PipelineProto, BoxError> {
     let options = PipelineOptions::new(PipelineRunnerKind::PortableRunner);
     let pipeline = Pipeline::new(options);
 
@@ -31,8 +32,8 @@ fn create_pipeline_proto() -> PipelineProto {
         .unwrap();
 
     let rows = pipeline
-        .apply(Create::from_row(input)) // Pipeline::apply -> PCollection
-        .apply(Select::field_names(&["f2", "f0"])); // PCollection::apply -> PCollection
+        .apply(Create::new_row(input)) // Pipeline::apply -> PCollection
+        .apply(Select::field_names(&["f2", "f0"]))?; // PCollection::apply -> PCollection
 
     let expected_schema = SchemaBuilder::new()
         .add("f2", SchemaFieldType::String)
@@ -40,7 +41,8 @@ fn create_pipeline_proto() -> PipelineProto {
         .build();
     assert_eq!(rows.schema().unwrap(), &expected_schema); // determined before running the pipeline (PAssert not required)
 
-    PipelineProto::from(pipeline)
+    let pipeline_proto = PipelineProto::from(pipeline);
+    Ok(pipeline_proto)
 }
 
 fn main() -> Result<(), J4RsError> {
@@ -57,7 +59,7 @@ fn main() -> Result<(), J4RsError> {
         &Vec::new(), // The `InvocationArg`s to use for the invocation - empty for this example
     )?;
 
-    let pipeline = create_pipeline_proto();
+    let pipeline = create_pipeline_proto().unwrap();
     let mut pipeline_bin = Vec::<u8>::new();
     pipeline.write_to_vec(&mut pipeline_bin).unwrap();
 

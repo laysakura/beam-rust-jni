@@ -1,8 +1,13 @@
 mod ptransform_id;
 
+use std::error::Error;
+
 pub use ptransform_id::PTransformId;
 
-use crate::beam_sdk::values::{PCollection, PCollectionValue};
+use crate::beam_sdk::{
+    error::BoxError,
+    values::{PCollection, PCollectionValue},
+};
 
 pub trait PTransform {
     type InV: PCollectionValue;
@@ -10,5 +15,8 @@ pub trait PTransform {
 
     fn id(&self) -> &PTransformId;
 
-    fn apply(&self, in_pcollection: &PCollection<Self::InV>) -> PCollection<Self::OutV>;
+    fn apply(
+        &self,
+        in_pcollection: &PCollection<Self::InV>,
+    ) -> Result<PCollection<Self::OutV>, BoxError>;
 }

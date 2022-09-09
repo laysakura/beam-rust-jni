@@ -10,7 +10,7 @@ impl Row {
         Self { schema }
     }
 
-    pub fn as_schema(&self) -> &Schema {
+    pub fn schema(&self) -> &Schema {
         &self.schema
     }
 }

@@ -4,7 +4,9 @@ use std::marker::PhantomData;
 
 pub use pcollection_id::PCollectionId;
 
-use crate::beam_sdk::{schemas::Schema, transforms::PTransform, values::PCollectionValue};
+use crate::beam_sdk::{
+    error::BoxError, schemas::Schema, transforms::PTransform, values::PCollectionValue,
+};
 
 pub struct PCollection<V>(PCollectionInner<V>)
 where
@@ -48,7 +50,7 @@ where
         Self(inner)
     }
 
-    pub fn apply<P, OV>(&self, transform: P) -> PCollection<OV>
+    pub fn apply<P, OV>(&self, transform: P) -> Result<PCollection<OV>, BoxError>
     where
         P: PTransform<InV = V, OutV = OV>,
         OV: PCollectionValue,

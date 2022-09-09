@@ -1,5 +1,4 @@
 use crate::beam_sdk::{
-    schemas::Schema,
     transforms::{ptransform::PTransformId, ReadTransform},
     values::{PCollection, PCollectionId, PCollectionValue, Row},
 };

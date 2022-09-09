@@ -1,6 +1,5 @@
 use crate::beam_sdk::{
-    error::{BoxError, FieldNameNotFound},
-    schemas::Schema,
+    error::BoxError,
     transforms::{ptransform::PTransformId, PTransform},
     values::{PCollection, PCollectionId, Row},
 };

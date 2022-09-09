@@ -1,7 +1,5 @@
 mod ptransform_id;
 
-use std::error::Error;
-
 pub use ptransform_id::PTransformId;
 
 use crate::beam_sdk::{
